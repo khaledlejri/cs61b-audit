@@ -6,7 +6,7 @@ import java.util.Observable;
 /**
  * The state of a game of 2048.
  * 
- * @author TODO: YOUR NAME HERE
+ * @author Khaled Lejri
  */
 public class Model extends Observable {
   /** Current contents of the board. */
@@ -106,6 +106,37 @@ public class Model extends Observable {
     checkGameOver();
     setChanged();
   }
+  public boolean processColumnTilt(int c, boolean changed) {
+    int nextPossibleRowPosition = 3;
+    int lastEmptyRowPosition = 0;
+    for (int r = 2; r >= 0; r -= 1) {
+      Tile t = board.tile(c, r);
+      Tile tNext = board.tile(c, nextPossibleRowPosition);
+      if (t == null) {
+        if ((lastEmptyRowPosition - 1 != r))
+          lastEmptyRowPosition = r;
+        continue;
+      }
+      if (tNext == null) {
+        board.move(c, nextPossibleRowPosition, t);
+        lastEmptyRowPosition = r;
+        changed = true;
+      } else if (tNext.value() == t.value()) {
+        board.move(c, nextPossibleRowPosition, t);
+        this.score += board.tile(c, nextPossibleRowPosition).value();
+        nextPossibleRowPosition -= 1;
+        changed = true;
+      } else if (r < lastEmptyRowPosition) {
+        board.move(c, lastEmptyRowPosition, t);
+        nextPossibleRowPosition = lastEmptyRowPosition;
+        lastEmptyRowPosition = r;
+        changed = true;
+      } else {
+        nextPossibleRowPosition -= 1;
+      }
+    }
+    return changed;
+  }
 
   /**
    * Tilt the board toward SIDE. Return true iff this changes the board.
@@ -123,40 +154,9 @@ public class Model extends Observable {
   public boolean tilt(Side side) {
     boolean changed;
     changed = false;
-
-    // TODO: Modify this.board (and perhaps this.score) to account
-    // for the tilt to the Side SIDE. If the board changed, set the
-    // changed local variable to true.
-    board.setViewingPerspective(side);
+    board.setViewingPerspective(side); // change side to make it as if it's north
     for (int c = 3; c >= 0; c -= 1) {
-      int nextPossibleRowPosition = 3;
-      int lastEmptyRowPosition = 0;
-      for (int r = 2; r >= 0; r -= 1) {
-        Tile t = board.tile(c, r);
-        Tile tNext = board.tile(c, nextPossibleRowPosition);
-        if (t == null) {
-          if ((lastEmptyRowPosition - 1 != r))
-            lastEmptyRowPosition = r;
-          continue;
-        }
-        if (tNext == null) {
-          board.move(c, nextPossibleRowPosition, t);
-          lastEmptyRowPosition = r;
-          changed = true;
-        } else if (tNext.value() == t.value()) {
-          board.move(c, nextPossibleRowPosition, t);
-          this.score += board.tile(c, nextPossibleRowPosition).value();
-          nextPossibleRowPosition -= 1;
-          changed = true;
-        } else if (r < lastEmptyRowPosition) {
-          board.move(c, lastEmptyRowPosition, t);
-          nextPossibleRowPosition = lastEmptyRowPosition;
-          lastEmptyRowPosition = r;
-          changed = true;
-        } else {
-          nextPossibleRowPosition -= 1;
-        }
-      }
+      changed = processColumnTilt(c, changed);
     }
     board.setViewingPerspective(Side.NORTH);
 
@@ -185,8 +185,6 @@ public class Model extends Observable {
    * Empty spaces are stored as null.
    */
   public static boolean emptySpaceExists(Board b) {
-    // TODO: Fill in this function.
-    // System.out.println(b.tile(0, 0));
     int boardSize = b.size();
     boolean emptySpace = false;
     for (int col = 0; col < boardSize; col += 1) {
@@ -206,7 +204,6 @@ public class Model extends Observable {
    * given a Tile object t, we get its value with t.value().
    */
   public static boolean maxTileExists(Board b) {
-    // TODO: Fill in this function.
     int boardSize = b.size();
     boolean maxTileExists = false;
     for (int col = 0; col < boardSize; col += 1) {
@@ -231,7 +228,6 @@ public class Model extends Observable {
    * 2. There are two adjacent tiles with the same value.
    */
   public static boolean atLeastOneMoveExists(Board b) {
-    // TODO: Fill in this function.
     int boardSize = b.size();
     // check empty space
     if (emptySpaceExists(b)) {
