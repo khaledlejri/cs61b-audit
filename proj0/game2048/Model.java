@@ -121,19 +121,26 @@ public class Model extends Observable {
                 Tile t = board.tile(c, r);
                 Tile tNext = board.tile(c, nextPossibleRowPosition);
                 if (t == null){
-                    lastEmptyRowPosition = r;
+                    if ((lastEmptyRowPosition - 1 != r))
+                        lastEmptyRowPosition = r;
                     continue;
                 }
-                if (tNext == null || (tNext.value() == t.value())){
-                    if (board.move(c, nextPossibleRowPosition, t)){
-                        this.score += board.tile(c, nextPossibleRowPosition).value();
-                        nextPossibleRowPosition -= 1;
-                    }
+                if (tNext == null){
+                    board.move(c, nextPossibleRowPosition, t);
+                    lastEmptyRowPosition = r;
+                    changed = true;
+                } else if (tNext.value() == t.value()) {
+                    board.move(c, nextPossibleRowPosition, t);
+                    this.score += board.tile(c, nextPossibleRowPosition).value();
+                    nextPossibleRowPosition -= 1;
                     changed = true;
                 } else if (r < lastEmptyRowPosition) {
                     board.move(c, lastEmptyRowPosition, t);
+                    nextPossibleRowPosition = lastEmptyRowPosition;
                     lastEmptyRowPosition = r;
                     changed = true;
+                } else {
+                    nextPossibleRowPosition -= 1;
                 }
             }
         }
