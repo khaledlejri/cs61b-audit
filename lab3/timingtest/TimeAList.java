@@ -18,6 +18,7 @@ public class TimeAList {
     }
 
     public static void main(String[] args) {
+        System.out.println("Timing table for addLast");
         timeAListConstruction();
     }
 
