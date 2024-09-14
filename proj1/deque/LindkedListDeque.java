@@ -40,7 +40,14 @@ public class LindkedListDeque<ItemType> {
     }
 
     public void addLast(ItemType x){
-
+        IntNode newNode = new IntNode(x, sentinel.prev, sentinel);
+        if(size == 0) {
+            sentinel.prev = sentinel.next = newNode;
+        } else {
+            sentinel.prev.next = newNode;
+            sentinel.prev = newNode;
+        }
+        size += 1;
     }
 
     public boolean isEmpty(){

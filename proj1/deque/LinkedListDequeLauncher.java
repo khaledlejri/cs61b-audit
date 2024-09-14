@@ -5,5 +5,6 @@ public class LinkedListDequeLauncher {
         LindkedListDeque<String> s1 = new LindkedListDeque<>();
         s1.addFirst("khaled");
         s1.addFirst("teresa");
+        s1.addLast("last1");
     }
 }
