@@ -73,11 +73,30 @@ public class LindkedListDeque<ItemType> {
 
     }
 
-    //    public itemType remove(ItemType x){}
-//
-//    public void printDeque(){}
-//    public ItemType removeFirst(){}
-//    public ItemType removeLast(){}
+    public ItemType removeFirst(){
+        if(size() != 0){
+            IntNode p = sentinel.next;
+            sentinel.next = sentinel.next.next;
+            sentinel.next.prev = sentinel;
+            size -= 1;
+            return p.item;
+        } else {
+            return null;
+        }
+    }
+
+    public ItemType removeLast(){
+        if(size() != 0){
+            IntNode p = sentinel.prev;
+            sentinel.prev = sentinel.prev.prev;
+            sentinel.prev.next = sentinel;
+            size -= 1;
+            return p.item;
+        } else {
+            return null;
+        }
+    }
+
 //    public ItemType get(){}
 //    public Iterator<ItemType> iterator(){}
 //    public boolean equals(Object o){}
