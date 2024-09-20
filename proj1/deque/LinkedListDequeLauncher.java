@@ -2,7 +2,7 @@ package deque;
 
 public class LinkedListDequeLauncher {
     public static void main(String[] args){
-        LindkedListDeque<String> s1 = new LindkedListDeque<>();
+        LinkedListDeque<String> s1 = new LinkedListDeque<>();
         s1.addFirst("Jack");
         s1.addFirst("John");
         s1.addLast("last1");
@@ -16,5 +16,21 @@ public class LinkedListDequeLauncher {
         System.out.println("current size is: " + s1.size());
         s1.printDeque();
 
+        System.out.println("--------------------- testing equals ----------------------");
+        LinkedListDeque<Integer> deque1 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> deque2 = new LinkedListDeque<>();
+
+        deque1.addFirst(1);
+        deque1.addLast(2);
+        deque2.addFirst(1);
+        deque2.addLast(2);
+
+        // This works because equals is called on an instance of LinkedListDeque
+        if (deque1.equals(deque2)) {
+            System.out.println("The deques are equal.");
+        } else {
+            System.out.println("The deques are not equal.");
+        }
+        System.out.println(deque1.getRecursive(1));
     }
 }

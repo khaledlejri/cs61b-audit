@@ -1,12 +1,10 @@
 package deque;
 
-import javax.swing.*;
-
-public class LindkedListDeque<ItemType> {
+public class LinkedListDeque<ItemType> {
     private int size;
     private IntNode sentinel;
 
-    public LindkedListDeque(){
+    public LinkedListDeque(){
         size = 0;
         sentinel = new IntNode(null, null, null);
         sentinel.prev = sentinel;
@@ -25,8 +23,6 @@ public class LindkedListDeque<ItemType> {
             next = n;
         }
     }
-
-    //public ItemType get(int index){}
 
     /** Adds a first item to the deque,
      *  Differentiates between having empty deque and not so we can keep the circular sentinel.  */
@@ -53,14 +49,17 @@ public class LindkedListDeque<ItemType> {
         size += 1;
     }
 
+    /** Checks if the Deque is empty */
     public boolean isEmpty(){
         return size == 0;
     }
 
+    /** Returns the size of the Deque */
     public int size(){
         return size;
     }
 
+    /** Prints the Deque items in one line separating each with a space  */
     public void printDeque(){
         IntNode p = sentinel;
         int dequeSize = size();
@@ -75,6 +74,7 @@ public class LindkedListDeque<ItemType> {
 
     }
 
+    /** Removes the first node in the Deque */
     public ItemType removeFirst(){
         if(size() != 0){
             IntNode p = sentinel.next;
@@ -87,6 +87,7 @@ public class LindkedListDeque<ItemType> {
         }
     }
 
+    /** Removes the last node in a Deque */
     public ItemType removeLast(){
         if(size() != 0){
             IntNode p = sentinel.prev;
@@ -99,6 +100,7 @@ public class LindkedListDeque<ItemType> {
         }
     }
 
+    /** Gets an item iteratively */
     public ItemType get(int x) {
         int dequeSize = size();
         if ((dequeSize == 0) || (x > dequeSize)) {
@@ -115,10 +117,47 @@ public class LindkedListDeque<ItemType> {
             }
         }
     }
+
+    /** Checks if an object is equal to the current Deque */
+    public boolean equals(Object o){
+        // check if they are the same object
+        if(this == o){
+            return true;
+        }
+        // if they are not the same object
+        // check if "o" is also an instance of the class LinkedListDeque
+        if(!(o instanceof LinkedListDeque)){
+            return false;
+        }
+        // we need to typecast to LinkedLIstDeque to be able to access its class methods
+        LinkedListDeque<?> that = (LinkedListDeque<?>) o;
+
+        if(size() != that.size()){
+            return false;
+        }
+        for(int i = 0; i < size(); i += 1){
+            if(!get(i).equals(that.get(i))){
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    /** Gets an item recursively */
+    public ItemType getRecursive(int index){
+        return getRecursiveHelper(sentinel.next, index);
+    }
+
+    private ItemType getRecursiveHelper(IntNode next, int index) {
+        if (index < 0 || index >= size || next == sentinel) {
+            return null;
+        }
+        if (index == 0) {
+            return next.item;
+        }
+        return getRecursiveHelper(next.next, index - 1);
+    }
 //    public Iterator<ItemType> iterator(){}
-//    public boolean equals(Object o){}
-//    public itemType getRecursive(int index)
-
-
 
 }
