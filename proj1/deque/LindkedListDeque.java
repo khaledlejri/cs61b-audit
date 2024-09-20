@@ -1,5 +1,7 @@
 package deque;
 
+import javax.swing.*;
+
 public class LindkedListDeque<ItemType> {
     private int size;
     private IntNode sentinel;
@@ -97,7 +99,22 @@ public class LindkedListDeque<ItemType> {
         }
     }
 
-//    public ItemType get(){}
+    public ItemType get(int x) {
+        int dequeSize = size();
+        if ((dequeSize == 0) || (x > dequeSize)) {
+            return null;
+        }
+        IntNode p = sentinel.next;
+        int counter = 0;
+        while (true) {
+            if (counter < x) {
+                p = p.next;
+                counter += 1;
+            } else {
+                return p.item;
+            }
+        }
+    }
 //    public Iterator<ItemType> iterator(){}
 //    public boolean equals(Object o){}
 //    public itemType getRecursive(int index)
