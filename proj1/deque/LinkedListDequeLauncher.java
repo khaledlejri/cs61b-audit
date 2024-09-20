@@ -6,5 +6,6 @@ public class LinkedListDequeLauncher {
         s1.addFirst("khaled");
         s1.addFirst("teresa");
         s1.addLast("last1");
+        s1.printDeque();
     }
 }

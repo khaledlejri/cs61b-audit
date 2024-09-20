@@ -39,6 +39,7 @@ public class LindkedListDeque<ItemType> {
         size += 1;
     }
 
+    /** Adds a last element to the deque. */
     public void addLast(ItemType x){
         IntNode newNode = new IntNode(x, sentinel.prev, sentinel);
         if(size == 0) {
@@ -54,11 +55,34 @@ public class LindkedListDeque<ItemType> {
         return size == 0;
     }
 
+    public int size(){
+        return size;
+    }
+
+    public void printDeque(){
+        IntNode p = sentinel;
+        int dequeSize = size();
+        if(dequeSize == 0){
+            System.out.println("no elements in the deque");
+        }
+        while(p.next.item != null){
+            System.out.print(p.next.item + " ");
+            p = p.next;
+        }
+        System.out.println();
+
+    }
+
+    //    public itemType remove(ItemType x){}
 //
-//    public itemType remove(ItemType x){}
-//
+//    public void printDeque(){}
+//    public ItemType removeFirst(){}
+//    public ItemType removeLast(){}
+//    public ItemType get(){}
+//    public Iterator<ItemType> iterator(){}
+//    public boolean equals(Object o){}
 //    public itemType getRecursive(int index)
-//    public int size(){}
+
 
 
 }
