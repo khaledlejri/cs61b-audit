@@ -117,7 +117,6 @@ public class LinkedListDeque<ItemType> {
             }
         }
     }
-
     /** Checks if an object is equal to the current Deque */
     public boolean equals(Object o){
         // check if they are the same object
@@ -158,6 +157,7 @@ public class LinkedListDeque<ItemType> {
         }
         return getRecursiveHelper(next.next, index - 1);
     }
-//    public Iterator<ItemType> iterator(){}
+
+    //public Iterator<ItemType> iterator(){}
 
 }
